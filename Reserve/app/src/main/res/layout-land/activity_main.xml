@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".MainActivity"
+    tools:ignore="MissingDefaultResource">
+
+    <FrameLayout
+        android:id="@+id/frame_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/background">
+
+        <ImageView
+            android:id="@+id/restuarant_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:src="@drawable/base_image"/>
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2.5"
+        android:background="@color/background">
+
+        <ImageView
+            android:id="@+id/small_circle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_baseline_circle_25"
+            android:onClick="tableChooser"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/medium_circle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_baseline_circle_35"
+            android:onClick="tableChooser"
+            app:layout_constraintLeft_toRightOf="@id/small_circle_table"
+            app:layout_constraintRight_toLeftOf="@id/large_circle_table"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/large_circle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/ic_baseline_circle_45"
+            android:onClick="tableChooser"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/small_square_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_baseline_square_25"
+            android:onClick="tableChooser"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/small_circle_table"/>
+
+        <ImageView
+            android:id="@+id/medium_square_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_square_35"
+            android:onClick="tableChooser"
+            app:layout_constraintLeft_toRightOf="@id/small_square_table"
+            app:layout_constraintRight_toLeftOf="@id/large_square_table"
+            app:layout_constraintTop_toBottomOf="@id/medium_circle_table"/>
+
+        <ImageView
+            android:id="@+id/large_square_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_baseline_square_45"
+            android:onClick="tableChooser"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/large_circle_table"/>
+
+
+        <ImageView
+            android:id="@+id/small_rectangle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_rectangle_25_50"
+            android:onClick="tableChooser"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/medium_verticle_rectangle_table"
+            />
+
+        <ImageView
+            android:id="@+id/medium_rectangle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_baseline_rectangle_40_80"
+            android:onClick="tableChooser"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/large_square_table"
+            />
+
+        <ImageView
+            android:id="@+id/large_rectangle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/ic_baseline_rectangle_40_100"
+            android:onClick="tableChooser"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/medium_rectangle_table"
+            />
+
+        <ImageView
+            android:id="@+id/small_verticle_rectangle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_baseline_verticle_rectangle_50_25"
+            android:onClick="tableChooser"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/small_rectangle_table"
+            />
+
+        <ImageView
+            android:id="@+id/medium_verticle_rectangle_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_verticle_rectangle_80_40"
+            android:onClick="tableChooser"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageButton
+            android:id="@+id/remove_table"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_outline_cancel_24"
+            android:background="@drawable/shape2"
+            android:onClick="removeTable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/add_image_button"/>
+
+        <ImageButton
+            android:id="@+id/add_image_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:src="@drawable/ic_outline_file_upload_45"
+            android:background="@drawable/shape2"
+            android:onClick="addImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/remove_table"/>
+
+        <ImageButton
+            android:id="@+id/next_page"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_outline_arrow_circle_right_45"
+            android:background="@drawable/shape2"
+            android:onClick="nextPage"
+            app:layout_constraintRight_toRightOf="@id/add_image_button"
+            app:layout_constraintLeft_toLeftOf="@id/add_image_button"
+            app:layout_constraintBottom_toTopOf="@id/add_image_button"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

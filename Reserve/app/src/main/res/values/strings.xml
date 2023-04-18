@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Reserve</string>
+    <string name="remove_party">Remove Party</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="remove_table">Remove Table</string>
+</resources>

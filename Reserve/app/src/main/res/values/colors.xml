@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue_outline">#55199fd4</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background">#6C6A71</color>
+    <color name="offset">#444446</color>
+    <color name="table_taken">#A36E44</color>
+</resources>
