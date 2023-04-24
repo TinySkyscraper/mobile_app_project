@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import java.util.Dictionary;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 
 public class reserve extends AppCompatActivity {
 
@@ -35,9 +37,8 @@ public class reserve extends AppCompatActivity {
     private int index = 0;
     private int mPartyIndex = 0;
     private TableConnector tableConnector = MainActivity.tableConnector;
-
-    private Enumeration<ImageView> keys = TableConnector.keys;
-    private Dictionary<ImageView, TextView> dict = TableConnector.dict;
+    private Map<TextView, ImageView> hmParty = tableConnector.hmParty;
+    private Map<ImageView, TextView> hmTable = tableConnector.hmTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +66,20 @@ public class reserve extends AppCompatActivity {
                         switch (event.getAction()){
                             case MotionEvent.ACTION_DOWN:
                                 view.setBackground(getResources().getDrawable(R.drawable.shape5));
-                                mPartyListDuplicate.setVisibility(View.VISIBLE);
+                                reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
+                                        .setVisibility(View.VISIBLE);
                                 setContentView(reserveLayout);
-                                TableConnector.putCurrentTable((ImageView) view);
+                                ImageView table = (ImageView) view;
+                                tableConnector.putCurrentTable(table);
+
+                                TextView party = null;
                                 try{
-                                    ImageView table = (ImageView) view;
-                                    TextView party = dict.get(table);
+                                    if (hmTable.containsKey(table)){
+                                        party = hmTable.get(table);
+                                    }
+
+
+                                    /*TextView party = dict.get(table);*/
                                     String name = party.getText().toString();
                                     Toast toast = new Toast(reserve.this);
                                     TextView textView = new TextView(reserve.this);
@@ -96,8 +105,12 @@ public class reserve extends AppCompatActivity {
 
     @Override
     protected void onDestroy(){
-
+        Log.e("MAIN", "On Destroy was called!!");
         ((ViewGroup) MainActivity.reserveLayout.getParent()).removeView(MainActivity.reserveLayout);
+        hmParty.clear();
+        hmTable.clear();
+        mPartyList.removeAllViews();
+        mPartyListDuplicate.removeAllViews();
         super.onDestroy();
 
     }
@@ -109,6 +122,7 @@ public class reserve extends AppCompatActivity {
         party.setId(200 + index);
         party.setTextColor(getResources().getColor(R.color.white));
         party.setGravity(Gravity.CENTER_HORIZONTAL);
+        party.setElevation(0);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
@@ -123,7 +137,7 @@ public class reserve extends AppCompatActivity {
                         view.setBackground(getResources().getDrawable(R.drawable.shape3));
                         return true;
                     case MotionEvent.ACTION_UP:
-                        view.setBackground(getResources().getDrawable(R.drawable.shape4));
+                        view.setBackground(null);
                         registerForContextMenu(view);
                         openContextMenu(view);
                         return true;
@@ -151,9 +165,10 @@ public class reserve extends AppCompatActivity {
                         view.setBackground(getResources().getDrawable(R.drawable.shape3));
                         return true;
                     case MotionEvent.ACTION_UP:
-                        view.setBackground(getResources().getDrawable(R.drawable.shape4));
-                        TableConnector.addPartyTableAssociation((TextView) view);
-                        mPartyListDuplicate.setVisibility(View.GONE);
+                        view.setBackground(null);
+                        tableConnector.addPartyTableAssociation((TextView) view);
+                        reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
+                                .setVisibility(View.GONE);
                         setContentView(reserveLayout);
                         return true;
                 }

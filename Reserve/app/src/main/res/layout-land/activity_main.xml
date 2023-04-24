@@ -191,6 +191,31 @@
             app:layout_constraintLeft_toLeftOf="@id/add_image_button"
             app:layout_constraintBottom_toTopOf="@id/add_image_button"/>
 
+        <ImageButton
+            android:id="@+id/reuse_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_baseline_reuse_image_45"
+            android:background="@drawable/shape2"
+            app:layout_constraintRight_toRightOf="@id/remove_table"
+            app:layout_constraintLeft_toRightOf="@id/save_layout"
+            app:layout_constraintBottom_toTopOf="@id/remove_table"/>
+
+        <ImageButton
+            android:id="@+id/save_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_outline_save_layout_45"
+            android:background="@drawable/shape2"
+            app:layout_constraintRight_toLeftOf="@id/reuse_layout"
+            app:layout_constraintLeft_toLeftOf="@id/remove_table"
+            app:layout_constraintBottom_toTopOf="@id/remove_table"/>
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

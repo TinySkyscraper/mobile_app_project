@@ -6,15 +6,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 public class TableConnector {
 
     private static ArrayList<TextView> partyList = new ArrayList<TextView>();
     private static ArrayList<ImageView> tableList = new ArrayList<ImageView>();
-    public static Dictionary<ImageView, TextView> dict = new Hashtable<>();
-    public static Enumeration<ImageView> keys = dict.keys();
-    public static Enumeration<TextView> values = dict.elements();
+    public static Map<TextView, ImageView> hmParty = new HashMap<TextView, ImageView>();
+    public static Map<ImageView, TextView> hmTable = new HashMap<ImageView, TextView>();
     public static ImageView currentTable;
     public static ImageView previousTable;
 
@@ -46,11 +47,13 @@ public class TableConnector {
 
     }
     public static void addPartyTableAssociation(TextView party){
-        dict.put(currentTable, party);
+        hmParty.put(party, currentTable);
+        hmTable.put(currentTable, party);
     }
 
-    public static void subtractPartyTableAssociation(ImageView table){
-            dict.remove(table);
+    public static void subtractPartyTableAssociation(TextView party){
+            hmTable.remove(hmParty.get(party));
+            hmParty.remove(party);
         }
 
     public static void putCurrentTable(ImageView imageView){
