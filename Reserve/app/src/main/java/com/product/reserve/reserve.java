@@ -1,9 +1,15 @@
 package com.product.reserve;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -25,6 +31,7 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimerTask;
 
 public class reserve extends AppCompatActivity {
 
@@ -39,6 +46,7 @@ public class reserve extends AppCompatActivity {
     private TableConnector tableConnector = MainActivity.tableConnector;
     private Map<TextView, ImageView> hmParty = tableConnector.hmParty;
     private Map<ImageView, TextView> hmTable = tableConnector.hmTable;
+    private CountDownTimer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +76,10 @@ public class reserve extends AppCompatActivity {
                                 view.setBackground(getResources().getDrawable(R.drawable.shape5));
                                 reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
                                         .setVisibility(View.VISIBLE);
+                                reserveLayout.findViewById(R.id.remove_party_button)
+                                        .setVisibility(View.VISIBLE);
                                 setContentView(reserveLayout);
+
                                 ImageView table = (ImageView) view;
                                 tableConnector.putCurrentTable(table);
 
@@ -101,6 +112,20 @@ public class reserve extends AppCompatActivity {
                 });
             }
         }
+        ImageView mSubtractPartyButton = reserveLayout.findViewById(R.id.remove_party_button);
+        mSubtractPartyButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                ImageView removeTbl = tableConnector.currentTable;
+                hmParty.remove(hmTable.get(removeTbl));
+                hmTable.remove(removeTbl);
+
+                mSubtractPartyButton.setVisibility(View.GONE);
+                reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
+                        .setVisibility(View.GONE);
+
+                removeTbl.clearColorFilter();
+            }
+        });
     }
 
     @Override
@@ -114,6 +139,7 @@ public class reserve extends AppCompatActivity {
         super.onDestroy();
 
     }
+
 
     public void addParty(View view){
         String partyData = mPartyEditText.getText().toString();
@@ -135,7 +161,18 @@ public class reserve extends AppCompatActivity {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         view.setBackground(getResources().getDrawable(R.drawable.shape3));
-                        return true;
+
+                        mTimer = new CountDownTimer(1000, 100) {
+                            public void onTick(long millisUntilFinished) {
+                                }
+
+                            public void onFinish() {
+                                view.setBackground(null);
+                            }
+                        }.start();
+
+
+                return true;
                     case MotionEvent.ACTION_UP:
                         view.setBackground(null);
                         registerForContextMenu(view);
@@ -169,6 +206,16 @@ public class reserve extends AppCompatActivity {
                         tableConnector.addPartyTableAssociation((TextView) view);
                         reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
                                 .setVisibility(View.GONE);
+                        reserveLayout.findViewById(R.id.remove_party_button)
+                                .setVisibility(View.GONE);
+                        ImageView tmpTable = tableConnector.currentTable;
+
+                        ColorMatrix matrix = new ColorMatrix();
+                        matrix.setSaturation(0);
+                        matrix.setScale(0.5f, 0.5f, 0.5f, 1f);
+                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                        tmpTable.setColorFilter(filter);
+
                         setContentView(reserveLayout);
                         return true;
                 }
