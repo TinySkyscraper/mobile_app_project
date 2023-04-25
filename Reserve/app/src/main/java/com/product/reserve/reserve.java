@@ -92,13 +92,7 @@ public class reserve extends AppCompatActivity {
 
                                     /*TextView party = dict.get(table);*/
                                     String name = party.getText().toString();
-                                    Toast toast = new Toast(reserve.this);
-                                    TextView textView = new TextView(reserve.this);
-                                    textView.setText("Associated Party: " + name);
-                                    toast.setView(textView);
-                                    toast.setDuration(Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.TOP|Gravity.LEFT, 100, 100);
-                                    toast.show();
+                                    displayToast("Associated Party: " + name);
                                 }catch(Exception e){
                                     Log.i("reserve", "no elements yet");
                                 }
@@ -200,6 +194,15 @@ public class reserve extends AppCompatActivity {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         view.setBackground(getResources().getDrawable(R.drawable.shape3));
+
+                        mTimer = new CountDownTimer(1000, 100) {
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            public void onFinish() {
+                                view.setBackground(null);
+                            }
+                        }.start();
                         return true;
                     case MotionEvent.ACTION_UP:
                         view.setBackground(null);
@@ -251,5 +254,15 @@ public class reserve extends AppCompatActivity {
         tableConnector.partySubtracter(party);
         setContentView(reserveLayout);
         return super.onContextItemSelected(item);
+    }
+
+    public void displayToast(String message){
+        Toast toast = new Toast(reserve.this);
+        TextView textView = new TextView(reserve.this);
+        textView.setText(message);
+        toast.setView(textView);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.LEFT, 100, 100);
+        toast.show();
     }
 }
