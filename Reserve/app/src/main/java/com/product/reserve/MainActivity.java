@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
 
         ArrayList<Integer>  listHolder = new ArrayList<Integer>();
-        if (frameLayout.getChildCount() > 1) {
+        if (frameLayout.getChildCount() > 0) {
             for (int i = 1; i < frameLayout.getChildCount(); i++) {
                 ImageView tmpTable = (ImageView) frameLayout.getChildAt(i);
 
@@ -282,10 +282,16 @@ public class MainActivity extends AppCompatActivity {
                 listHolder.add(myY);
                 listHolder.add(imageId);
             }
-            Gson gson = new Gson();
-            String json = gson.toJson(listHolder);
-            editor.putString("ArrayObj", json);
-            editor.apply();
+            Log.e("MAIN", Integer.toString(listHolder.size()));
+            if (listHolder.size() < 1){
+                editor.putString("ArrayObj", "ABC");
+                editor.apply();
+            }else {
+                Gson gson = new Gson();
+                String json = gson.toJson(listHolder);
+                editor.putString("ArrayObj", json);
+                editor.apply();
+            }
         }
         }
 
@@ -295,7 +301,8 @@ public class MainActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = sharePref.getString("ArrayObj", "");
-            if (json != "") {
+            Log.e("MAIN", json);
+            try{
                 listHolder = gson.fromJson(json, ArrayList.class);
 
                 int tmpId = 0;
@@ -335,6 +342,9 @@ public class MainActivity extends AppCompatActivity {
                     addTable();
                 }
                 index = tmpId + index + 1;
+            }catch (Exception e){
+                Log.i("MAIN", "no tables");
+                setContentView(parentLayout);
             }
             }
 
