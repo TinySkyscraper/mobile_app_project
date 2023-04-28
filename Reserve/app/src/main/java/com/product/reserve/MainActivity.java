@@ -295,45 +295,47 @@ public class MainActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = sharePref.getString("ArrayObj", "");
-            listHolder = gson.fromJson(json, ArrayList.class);
+            if (json != "") {
+                listHolder = gson.fromJson(json, ArrayList.class);
 
-            int tmpId = 0;
+                int tmpId = 0;
 
-            for (int i=0; i<listHolder.size(); i=i+4){
+                for (int i = 0; i < listHolder.size(); i = i + 4) {
 
-                tmpId = (int) Math.round(listHolder.get(i+0));
-                int myX = (int) Math.round(listHolder.get(i+1));
-                int myY = (int) Math.round(listHolder.get(i+2));
-                int imageId = (int) Math.round(listHolder.get(i+3));
+                    tmpId = (int) Math.round(listHolder.get(i + 0));
+                    int myX = (int) Math.round(listHolder.get(i + 1));
+                    int myY = (int) Math.round(listHolder.get(i + 2));
+                    int imageId = (int) Math.round(listHolder.get(i + 3));
 
-                ImageView imageView = new ImageView(this);
-                imageView.setId(tmpId + index);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.WRAP_CONTENT,
-                        FrameLayout.LayoutParams.WRAP_CONTENT
-                );
-                params.setMargins(myX, myY,0,0);
-                imageView.setLayoutParams(params);
-                imageView.setImageDrawable(getDrawable(imageId));
+                    ImageView imageView = new ImageView(this);
+                    imageView.setId(tmpId + index);
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.WRAP_CONTENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.setMargins(myX, myY, 0, 0);
+                    imageView.setLayoutParams(params);
+                    imageView.setImageDrawable(getDrawable(imageId));
 
-                ImageView imageView2 = new ImageView(this);
-                imageView2.setId(100 + tmpId + index);
-                FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.WRAP_CONTENT,
-                        FrameLayout.LayoutParams.WRAP_CONTENT
-                );
-                params2.setMargins(myX, myY,0,0);
-                imageView2.setLayoutParams(params);
-                imageView2.setImageDrawable(getDrawable(imageId));
+                    ImageView imageView2 = new ImageView(this);
+                    imageView2.setId(100 + tmpId + index);
+                    FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.WRAP_CONTENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params2.setMargins(myX, myY, 0, 0);
+                    imageView2.setLayoutParams(params);
+                    imageView2.setImageDrawable(getDrawable(imageId));
 
-                frameLayout.addView(imageView);
-                reserveFrame.addView(imageView2);
-                tableConnector.tableAdder(imageView2);
-                mImageIdList.add(imageId);
-                setContentView(parentLayout);
-                addTable();
+                    frameLayout.addView(imageView);
+                    reserveFrame.addView(imageView2);
+                    tableConnector.tableAdder(imageView2);
+                    mImageIdList.add(imageId);
+                    setContentView(parentLayout);
+                    addTable();
                 }
-            index = tmpId + index + 1;
+                index = tmpId + index + 1;
+            }
             }
 
         }
