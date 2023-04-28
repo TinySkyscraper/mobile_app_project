@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private int myY;
     private Bitmap bitmap;
     private SharedPreferences sharePref;
+    private ArrayList<Integer> mImageIdList = new ArrayList<Integer>();
 
     public static TableConnector tableConnector = new TableConnector();
     public View parentLayout;
@@ -99,40 +100,52 @@ public class MainActivity extends AppCompatActivity {
         frameGroup.setOnTouchListener((v, event) -> {
             int size = 80;
             Drawable image = getDrawable(R.drawable.ic_baseline_circle_25);
+            int imageId = R.drawable.ic_baseline_circle_25;
 
             switch (mTableToPlace){
                 case R.id.small_circle_table:
                     image = getDrawable(R.drawable.ic_baseline_circle_25);
+                    imageId = R.drawable.ic_baseline_circle_25;
                     break;
                 case R.id.medium_circle_table:
                     image = getDrawable(R.drawable.ic_baseline_circle_35);
+                    imageId = R.drawable.ic_baseline_circle_35;
                     break;
                 case R.id.large_circle_table:
                     image = getDrawable(R.drawable.ic_baseline_circle_45);
+                    imageId = R.drawable.ic_baseline_circle_45;
                     break;
                 case R.id.small_square_table:
                     image = getDrawable(R.drawable.ic_baseline_square_25);
+                    imageId = R.drawable.ic_baseline_square_25;
                     break;
                 case R.id.medium_square_table:
                     image = getDrawable(R.drawable.ic_baseline_square_35);
+                    imageId = R.drawable.ic_baseline_square_35;
                     break;
                 case R.id.large_square_table:
                     image = getDrawable(R.drawable.ic_baseline_square_45);
+                    imageId = R.drawable.ic_baseline_square_45;
                     break;
                 case R.id.small_rectangle_table:
                     image = getDrawable(R.drawable.ic_baseline_rectangle_25_50);
+                    imageId = R.drawable.ic_baseline_rectangle_25_50;
                     break;
                 case R.id.medium_rectangle_table:
                     image = getDrawable(R.drawable.ic_baseline_rectangle_40_80);
+                    imageId = R.drawable.ic_baseline_rectangle_40_80;
                     break;
                 case R.id.large_rectangle_table:
                     image = getDrawable(R.drawable.ic_baseline_rectangle_40_100);
+                    imageId = R.drawable.ic_baseline_rectangle_40_100;
                     break;
                 case R.id.small_verticle_rectangle_table:
                     image = getDrawable(R.drawable.ic_baseline_verticle_rectangle_50_25);
+                    imageId = R.drawable.ic_baseline_verticle_rectangle_50_25;
                     break;
                 case R.id.medium_verticle_rectangle_table:
                     image = getDrawable(R.drawable.ic_baseline_verticle_rectangle_80_40);
+                    imageId = R.drawable.ic_baseline_verticle_rectangle_80_40;
                     break;
             }
 
@@ -163,10 +176,13 @@ public class MainActivity extends AppCompatActivity {
                     );
                     params2.setMargins(myX-35,myY-35,0,0);
                     imageView2.setLayoutParams(params2);
+                    Log.e("RESERVE", Integer.toString(imageView.getId()));
+                    Log.e("RESERVE", Integer.toString(imageView2.getId()));
 
                     frameLayout.addView(imageView);
                     reserveFrame.addView(imageView2);
                     tableConnector.tableAdder(imageView2);
+                    mImageIdList.add(imageId);
 
                     setContentView(parentLayout);
                     addTable();
@@ -184,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
             frameLayout.removeView(imageView);
             ((ViewGroup) imageView2.getParent()).removeView(imageView2);
             tableConnector.tableSubtracter(imageView2);
+            mImageIdList.remove(index-1);
             setContentView(parentLayout);
             index--;
             addTable();
@@ -258,32 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 Integer tmpId = (Integer) tmpTable.getId();
                 Integer myX = (Integer) Math.round(tmpTable.getX());
                 Integer myY = (Integer) Math.round(tmpTable.getY());
-                Integer imageId = (Integer) R.drawable.ic_baseline_circle_25;
-                Drawable.ConstantState tableImage = tmpTable.getDrawable().getConstantState();
-
-                if (tableImage == getDrawable(R.drawable.ic_baseline_circle_25).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_circle_25;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_circle_35).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_circle_35;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_circle_45).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_circle_45;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_square_25).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_square_25;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_square_35).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_square_35;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_square_45).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_square_45;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_rectangle_25_50).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_rectangle_25_50;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_rectangle_40_80).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_rectangle_40_80;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_rectangle_40_100).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_rectangle_40_100;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_verticle_rectangle_50_25).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_verticle_rectangle_50_25;
-                } else if (tableImage == getDrawable(R.drawable.ic_baseline_verticle_rectangle_80_40).getConstantState()) {
-                    imageId = R.drawable.ic_baseline_verticle_rectangle_80_40;
-                }
+                Integer imageId = (Integer) mImageIdList.get(i-1);
 
                 listHolder.add(tmpId);
                 listHolder.add(myX);
@@ -337,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
                 frameLayout.addView(imageView);
                 reserveFrame.addView(imageView2);
                 tableConnector.tableAdder(imageView2);
+                mImageIdList.add(imageId);
                 setContentView(parentLayout);
                 addTable();
                 }

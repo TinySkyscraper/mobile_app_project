@@ -59,16 +59,30 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+            <TextView
+                android:id="@+id/associated_party_textbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Associated Party: "
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
             <ScrollView
                 android:id="@+id/reserve_scroll_group_duplicate"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
                 android:layout_margin="3dp"
                 android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/associated_party_textbox"
                 app:layout_constraintBottom_toTopOf="@id/party_edit_text">
 
                 <LinearLayout

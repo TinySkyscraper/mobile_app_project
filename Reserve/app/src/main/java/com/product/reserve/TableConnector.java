@@ -12,12 +12,11 @@ import java.util.Map;
 
 public class TableConnector {
 
-    private static ArrayList<TextView> partyList = new ArrayList<TextView>();
+    public static ArrayList<TextView> partyList = new ArrayList<TextView>();
     private static ArrayList<ImageView> tableList = new ArrayList<ImageView>();
     public static Map<TextView, ImageView> hmParty = new HashMap<TextView, ImageView>();
     public static Map<ImageView, TextView> hmTable = new HashMap<ImageView, TextView>();
     public static ImageView currentTable;
-    public static ImageView previousTable;
 
     public static void partyAdder(TextView textView){
         partyList.add(textView);
@@ -51,9 +50,9 @@ public class TableConnector {
         hmTable.put(currentTable, party);
     }
 
-    public static void subtractPartyTableAssociation(TextView party){
-            hmTable.remove(hmParty.get(party));
-            hmParty.remove(party);
+    public static void subtractPartyTableAssociation(ImageView removeTbl){
+        hmParty.remove(hmTable.get(removeTbl));
+        hmTable.remove(removeTbl);
         }
 
     public static void putCurrentTable(ImageView imageView){

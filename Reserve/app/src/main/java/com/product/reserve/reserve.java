@@ -52,7 +52,7 @@ public class reserve extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         reserveLayout = MainActivity.reserveLayout;
-        reserveFrame = reserveLayout.findViewById(R.id.reverve_frame_group);
+        reserveFrame = MainActivity.reserveFrame;
         setContentView(reserveLayout);
 
         mPartyEditText = findViewById(R.id.party_edit_text);
@@ -78,10 +78,12 @@ public class reserve extends AppCompatActivity {
                                         .setVisibility(View.VISIBLE);
                                 reserveLayout.findViewById(R.id.remove_party_button)
                                         .setVisibility(View.VISIBLE);
-                                setContentView(reserveLayout);
+                                reserveLayout.findViewById(R.id.associated_party_textbox)
+                                        .setVisibility(View.VISIBLE);
 
                                 ImageView table = (ImageView) view;
                                 tableConnector.putCurrentTable(table);
+                                Log.e("RESERVE", Integer.toString(table.getId()));
 
                                 TextView party = null;
                                 try{
@@ -92,10 +94,13 @@ public class reserve extends AppCompatActivity {
 
                                     /*TextView party = dict.get(table);*/
                                     String name = party.getText().toString();
-                                    displayToast("Associated Party: " + name);
+                                    displayName(name);
                                 }catch(Exception e){
                                     Log.i("reserve", "no elements yet");
+                                    displayName("");
                                 }
+
+                                setContentView(reserveLayout);
                                 return true;
                             case MotionEvent.ACTION_UP:
                                 view.setBackgroundResource(0);
@@ -110,11 +115,12 @@ public class reserve extends AppCompatActivity {
         mSubtractPartyButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 ImageView removeTbl = tableConnector.currentTable;
-                hmParty.remove(hmTable.get(removeTbl));
-                hmTable.remove(removeTbl);
+                tableConnector.subtractPartyTableAssociation(removeTbl);
 
                 mSubtractPartyButton.setVisibility(View.GONE);
                 reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
+                        .setVisibility(View.GONE);
+                reserveLayout.findViewById(R.id.associated_party_textbox)
                         .setVisibility(View.GONE);
 
                 removeTbl.clearColorFilter();
@@ -123,14 +129,28 @@ public class reserve extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    public void onBackPressed(){
         Log.e("MAIN", "On Destroy was called!!");
-        ((ViewGroup) MainActivity.reserveLayout.getParent()).removeView(MainActivity.reserveLayout);
+        for (int i = 1; i < reserveFrame.getChildCount(); i++){
+            ImageView tmpTable = (ImageView) reserveFrame.getChildAt(i);
+            ViewGroup viewGroup = (ViewGroup) tmpTable.getParent().getParent();
+            Log.e("RESERVE2", Integer.toString(viewGroup.getId()));
+            tmpTable.clearColorFilter();
+
+        }
         hmParty.clear();
         hmTable.clear();
+        tableConnector.partyList.clear();
         mPartyList.removeAllViews();
         mPartyListDuplicate.removeAllViews();
-        super.onDestroy();
+        reserveLayout.findViewById(R.id.reserve_scroll_group_duplicate)
+                .setVisibility(View.GONE);
+        TextView textView = reserveLayout.findViewById(R.id.associated_party_textbox);
+        textView.setText("");
+        textView.setVisibility(View.GONE);
+
+        ((ViewGroup) MainActivity.reserveLayout.getParent()).removeView(MainActivity.reserveLayout);
+        super.onBackPressed();
 
     }
 
@@ -211,7 +231,10 @@ public class reserve extends AppCompatActivity {
                                 .setVisibility(View.GONE);
                         reserveLayout.findViewById(R.id.remove_party_button)
                                 .setVisibility(View.GONE);
-                        ImageView tmpTable = tableConnector.currentTable;
+                        reserveLayout.findViewById(R.id.associated_party_textbox)
+                                .setVisibility(View.GONE);
+                        int tmpid = tableConnector.currentTable.getId();
+                        ImageView tmpTable = reserveLayout.findViewById(tmpid);
 
                         ColorMatrix matrix = new ColorMatrix();
                         matrix.setSaturation(0);
@@ -242,7 +265,6 @@ public class reserve extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
         mPartyIndex = view.getId();
-        Log.i("reserve", "onCreateContextMenu has been called!");
     }
 
     @Override
@@ -256,13 +278,8 @@ public class reserve extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-    public void displayToast(String message){
-        Toast toast = new Toast(reserve.this);
-        TextView textView = new TextView(reserve.this);
-        textView.setText(message);
-        toast.setView(textView);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP|Gravity.LEFT, 100, 100);
-        toast.show();
+    public void displayName(String message){
+        TextView tableAssociation = reserveLayout.findViewById(R.id.associated_party_textbox);
+        tableAssociation.setText("Associated Party: " + message);
     }
 }
